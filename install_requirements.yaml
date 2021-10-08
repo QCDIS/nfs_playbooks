@@ -1,0 +1,25 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: Wait for automatic system updates
+      shell: while fuser /var/lib/dpkg/{{ item }} >/dev/null 2>&1; do sleep 3; done;
+      with_items:
+        - lock
+        - lock-frontend
+      become: yes
+  
+    - name: Check for Python
+      raw: test -e /usr/bin/python
+      changed_when: false
+      failed_when: false
+      register: check_python    
+      
+    - name: Install Python
+      raw: apt -y update && apt install -y python-minimal
+      when: check_python.rc != 0    
+      
+    - package:
+        name: 
+        - nfs-kernel-server
+        - nfs-common 
+        state: present
