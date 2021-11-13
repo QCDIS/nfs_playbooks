@@ -11,7 +11,25 @@
       retries: 10
       delay: 5 
       
-
+     
+    - file:
+        path: /tmp/nfs
+        state: directory
+      
+    - name: Mount NFS
+      ansible.posix.mount:
+        src: "{{public_ip['json']['ip']}}:{{ mount_path }}"
+        path: /tmp/nfs
+        opts: rw,sync,hard,intr
+        state: mounted
+        fstype: nfs
+        
+    - name: Unmounted NFS
+      ansible.posix.mount:
+        path: /tmp/nfs
+        state: unmounted
+        fstype: nfs
+        
     - set_stats:
         data: 
           nfs: "{{public_ip['json']['ip']}}:{{ mount_path }}"
