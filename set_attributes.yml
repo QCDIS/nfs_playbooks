@@ -17,7 +17,7 @@
         state: directory
       
     - name: Mount NFS
-      ansible.posix.mount:
+      mount:
         src: "{{public_ip['json']['ip']}}:{{ mount_path }}"
         path: /tmp/nfs
         opts: rw,sync,hard,intr
@@ -25,7 +25,7 @@
         fstype: nfs
         
     - name: Unmounted NFS
-      ansible.posix.mount:
+      mount:
         path: /tmp/nfs
         state: unmounted
         fstype: nfs
