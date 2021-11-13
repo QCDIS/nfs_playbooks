@@ -32,5 +32,6 @@
         
     - set_stats:
         data: 
-          nfs: "{{public_ip['json']['ip']}}:{{ mount_path }}"
+          nfs: 
+            server: "{{public_ip['json']['ip']}}:{{ mount_path }}"
           
