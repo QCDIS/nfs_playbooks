@@ -21,3 +21,7 @@
                 
     - name: NFS apply change configrue
       shell: systemctl reload nfs;exportfs -a
+      
+    - set_fact:
+        data: 
+         mount_path: "{{ mount_path }}"
