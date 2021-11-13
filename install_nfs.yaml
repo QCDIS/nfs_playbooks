@@ -4,7 +4,7 @@
         
     - name: Create dir 
       file:
-        path: /mnt/nfs
+        path: "{{ mount_path }}"
         state: directory
         owner: "{{ ansible_ssh_user }}"
         group: "{{ ansible_ssh_user }}"
@@ -22,3 +22,5 @@
     - name: NFS apply change configrue
       shell: systemctl reload nfs;exportfs -a
 
+    - set_stats:
+        data: "{{ mount_path }}"
