@@ -1,21 +1,24 @@
-- hosts: all
+- hosts: nfs-server
   become: yes
   tasks:        
         
     - name: Create dir 
       file:
-        path: /mnt/kubedata/
+        path: /mnt/nfs
         state: directory
         owner: "{{ ansible_ssh_user }}"
         group: "{{ ansible_ssh_user }}"
         mode: 777 
 
         
-    - name: Add a line exports
-      lineinfile:
-        path: /etc/exports
-        line: "/mnt/kubedata/ * (rw,sync,no_subtree_check,no_root_squash,no_all_squash,insecure)"
-#       with_itmes: "{{ node_ips }}"
+    - name: Copy exports file.
+      template:
+        src: ./exports.j2
+        dest: /etc/exports
+        owner: "{{ ansible_ssh_user }}"
+        group: "{{ ansible_ssh_user }}"
+        mode: 0644
                 
-    - name: exportfs
-      shell: exportfs -rav
+    - name: NFS apply change configrue
+      shell: systemctl reload nfs;exportfs -a
+
