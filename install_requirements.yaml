@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: nfs-server
   become: yes
   tasks:
     - name: Wait for automatic system updates
