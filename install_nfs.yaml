@@ -18,6 +18,13 @@
         owner: "{{ ansible_ssh_user }}"
         group: "{{ ansible_ssh_user }}"
         mode: 0644
+        
+    - name: replace path
+      replace:
+        path: /etc/exports
+        regexp: '/mnt/nfs'
+        replace: "{{ mount_path }}"
+  
                 
     - name: NFS apply change configrue
       shell: systemctl reload nfs;exportfs -a
