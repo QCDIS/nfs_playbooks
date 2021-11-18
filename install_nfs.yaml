@@ -9,7 +9,6 @@
         owner: "{{ ansible_ssh_user }}"
         group: "{{ ansible_ssh_user }}"
         mode: 777 
-
         
     - name: Copy exports file.
       template:
